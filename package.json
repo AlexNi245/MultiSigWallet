@@ -1,0 +1,5 @@
+{
+  "devDependencies": {
+    "truffle-typings": "^1.0.8"
+  }
+}
