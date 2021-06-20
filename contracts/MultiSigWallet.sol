@@ -2,10 +2,9 @@
 
 pragma solidity ^0.8.0;
 
-contract MultiSigWallet {
-    address[] public owners;
-    mapping(address => bool) isOwner;
+import "./MultipleOwners.sol";
 
+contract MultiSigWallet is MultipleOwners {
     uint256 public necessaryApprovals;
 
     mapping(uint256 => Transaction) public transactions;
@@ -30,11 +29,6 @@ contract MultiSigWallet {
             _owners.length >= _necessaryApprovals,
             "The number of approvals must me equal or less than the length of owners"
         );
-        _;
-    }
-
-    modifier onlyOwner(address _sender) {
-        require(isOwner[_sender] == true, "You are not one of the owners");
         _;
     }
 
@@ -72,12 +66,9 @@ contract MultiSigWallet {
     }
 
     constructor(address[] memory _owners, uint256 _necessaryApprovals)
+        MultipleOwners(_owners)
         contructorGuard(_owners, _necessaryApprovals)
     {
-        for (uint256 i = 0; i < _owners.length; i++) {
-            owners.push(_owners[i]);
-            isOwner[_owners[i]] = true;
-        }
         necessaryApprovals = _necessaryApprovals;
     }
 
