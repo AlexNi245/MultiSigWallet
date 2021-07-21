@@ -4,6 +4,7 @@ import {SelectAccount} from "./SelectAccount";
 import {WalletContext} from "../../context/WalletContext";
 import {Web3Context} from "../../context/Web3Context";
 import {Deposit} from "./Deposit";
+import {Funds} from "./Funds";
 
 export const Wallet = ({}) => {
     const {contract} = useContext(ContractContext);
@@ -11,7 +12,7 @@ export const Wallet = ({}) => {
 
 
     const [currentAccount, setCurrentAccount] = useState(null);
-    const [walletBalance, setWalletBalance] = useState(0)
+    const [walletBalance, setWalletBalance] = useState("0")
 
     const [] = useState(null);
 
@@ -24,7 +25,6 @@ export const Wallet = ({}) => {
         console.log(contract)
         const balance = await web3.eth.getBalance(contract.options.address);
         setWalletBalance(balance);
-        console.log(balance);
     }
 
     const handleSetCurrentAccount = account => {
@@ -33,16 +33,16 @@ export const Wallet = ({}) => {
 
 
     return <WalletContext.Provider value={{
-        currentAccount, handleSetCurrentAccount,updateWalletBalance
+        currentAccount, handleSetCurrentAccount, walletBalance, updateWalletBalance, setCurrentAccount
     }}>
-        <div className="flex justify-between">
-            <p>Wallet Balance</p>
-            <p>{walletBalance}</p>
-        </div>
 
         <SelectAccount/>
         <div className="mt-12 ml-12">
-        <Deposit/>
+            <Deposit/>
         </div>
+        <div className="mt-12 ml-12">
+            <Funds/>
+        </div>
+
     </WalletContext.Provider>
 }

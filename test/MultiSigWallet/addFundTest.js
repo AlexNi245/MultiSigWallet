@@ -49,7 +49,6 @@ contract("MultiSigWallet", accounts => {
         assert.equal(currentBalance, 3000)
         assert.equal(id, 3)
 
-
     });
 
 

@@ -8,15 +8,16 @@ export const SelectAccount = () => {
 
     const [accountOptions, setAccountsOptions] = useState([])
     const {web3} = useContext(Web3Context);
-    const{handleSetCurrentAccount} =  useContext(WalletContext)
+    const {handleSetCurrentAccount, setCurrentAccount,currentAccount} = useContext(WalletContext)
 
     useEffect(() => {
         getAddresses()
-    },[])
+    }, [])
 
     const getAddresses = async () => {
         const accounts = await web3.eth.getAccounts();
         setAccountsOptions(accounts.map(account => ({"label": account, "value": account})))
+        setCurrentAccount(accounts[0])
     }
 
     const onSelectAccount = ({value}) => handleSetCurrentAccount(value)
@@ -25,7 +26,9 @@ export const SelectAccount = () => {
         <h1 className="mb-2">Choose Account</h1>
         <div className="w-3/5">
 
-        <Select options={accountOptions} onChange = {onSelectAccount}/>
+            <Select value={{
+                label:currentAccount,"value":currentAccount
+            }} options={accountOptions} onChange={onSelectAccount}/>
         </div>
 
     </>

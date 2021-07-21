@@ -23,6 +23,7 @@ export const SetupContract = () => {
     const getAddresses = async () => {
         const accounts = await web3.eth.getAccounts();
         setAccounts(accounts);
+
     }
 
     const deployContract = async () => {

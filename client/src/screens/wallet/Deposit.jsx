@@ -19,9 +19,10 @@ export const Deposit = () => {
 
     const deposit = async () => {
         console.log(currentAccount)
-        await web3.eth.sendTransaction({
+        await contract.methods.addFund().send({
+            //Todo adjust gas limit
+            gasLimit: 1000000,
             from: currentAccount,
-            to: contract.options.address,
             value: toWei(amount, "ether")
         })
         updateWalletBalance()
@@ -29,10 +30,8 @@ export const Deposit = () => {
     }
 
 
-
-
-    return <div className="text-white flex-col flex bg-gray-800 w-3/5 max-w-lg rounded-2xl p-2">
-        <p className="px-4 pb-2 ">Deposit Ether</p>
+    return <div className="text-white flex-col flex bg-gray-800 w-6/12 max-w-md rounded-2xl p-2">
+        <p className="px-4 pb-2 text-lg ">Deposit Ether</p>
         <div className="flex justify-between bg-gray-700 rounded-2xl  mx-2 px-2 pt-4 pb-6 ">
             <div className="flex bg-gray-900 rounded-2xl  p-2">
                 <div
