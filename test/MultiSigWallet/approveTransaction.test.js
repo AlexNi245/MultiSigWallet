@@ -18,7 +18,7 @@ contract("MultiSigWallet", accounts => {
     const foreignAddress = accounts[2];
 
     const instance = await MultiSigWallet.new([firstOwner, secondOwner], 1, txParams);
-    await instance.send(1000, { from: firstOwner })
+    await instance.addFund( { from: firstOwner ,value:1000})
 
     await instance.addTransaction(firstOwner, 900, { from: foreignAddress });
     await instance.addTransaction(firstOwner, 900, { from: foreignAddress });
@@ -48,7 +48,7 @@ contract("MultiSigWallet", accounts => {
     const foreignAddress = accounts[2];
 
     const instance = await MultiSigWallet.new([firstOwner, secondOwner], 1, txParams);
-    await instance.send(1000, { from: firstOwner })
+    await instance.addFund( { from: firstOwner ,value:1000})
 
     await instance.addTransaction(firstOwner, 10, { from: foreignAddress });
 
@@ -78,7 +78,7 @@ contract("MultiSigWallet", accounts => {
     const foreignAddress = accounts[2];
 
     const instance = await MultiSigWallet.new([firstOwner, secondOwner], 1, txParams);
-    await instance.send(1000, { from: firstOwner })
+    await instance.addFund( { from: firstOwner ,value:1000})
 
     await instance.addTransaction(firstOwner, 10, { from: foreignAddress });
 
@@ -109,7 +109,7 @@ contract("MultiSigWallet", accounts => {
     const foreignAddress = accounts[2];
 
     const instance = await MultiSigWallet.new([firstOwner, secondOwner], 2, txParams);
-    await instance.send(1000, { from: firstOwner })
+    await instance.addFund( { from: firstOwner ,value:1000})
 
     await instance.addTransaction(firstOwner, 10, { from: foreignAddress });
 
@@ -143,7 +143,7 @@ contract("MultiSigWallet", accounts => {
     const foreignAddress = accounts[2];
 
     const instance = await MultiSigWallet.new([firstOwner, secondOwner], 2, txParams);
-    await instance.send(1000, { from: firstOwner })
+    await instance.addFund( { from: firstOwner ,value:1000})
 
     await instance.addTransaction(firstOwner, 10, { from: foreignAddress });
 
@@ -177,7 +177,7 @@ contract("MultiSigWallet", accounts => {
     const foreignAddress = accounts[2];
 
     const instance = await MultiSigWallet.new([firstOwner, secondOwner], 2, txParams);
-    await instance.send(1000, { from: firstOwner })
+    await instance.addFund( { from: firstOwner ,value:1000})
 
     await instance.addTransaction(firstOwner, 10, { from: foreignAddress });
 
@@ -214,7 +214,7 @@ contract("MultiSigWallet", accounts => {
     const foreignAddress = accounts[2];
 
     const instance = await MultiSigWallet.new([firstOwner, secondOwner], 1, txParams);
-    await instance.send(1000, { from: firstOwner })
+    await instance.addFund( { from: firstOwner ,value:1000})
 
     await instance.addTransaction(firstOwner, 10, { from: foreignAddress });
 

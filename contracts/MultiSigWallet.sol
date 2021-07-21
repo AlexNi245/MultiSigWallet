@@ -10,6 +10,15 @@ contract MultiSigWallet is MultipleOwners {
     mapping(uint256 => Transaction) public transactions;
     uint256 public currentTransactionId;
 
+    mapping(uint256 => Fund) public funds;
+    uint256 public currentFundId;
+
+    struct Fund {
+        address from;
+        uint256 value;
+        uint256 timestamp;
+    }
+
     struct Transaction {
         address from;
         address payable to;
@@ -66,15 +75,15 @@ contract MultiSigWallet is MultipleOwners {
     }
 
     constructor(address[] memory _owners, uint256 _necessaryApprovals)
-        MultipleOwners(_owners)
-        contructorGuard(_owners, _necessaryApprovals)
+    MultipleOwners(_owners)
+    contructorGuard(_owners, _necessaryApprovals)
     {
         necessaryApprovals = _necessaryApprovals;
     }
 
     function addTransaction(address payable _to, uint256 _ammount)
-        public
-        balanceGuard(_ammount)
+    public
+    balanceGuard(_ammount)
     {
         Transaction storage transaction = transactions[currentTransactionId];
 
@@ -87,25 +96,25 @@ contract MultiSigWallet is MultipleOwners {
     }
 
     function approveTransaction(uint256 _transactionId)
-        public
-        onlyOwner(msg.sender)
-        singleApprovalGuard(msg.sender, _transactionId)
+    public
+    onlyOwner(msg.sender)
+    singleApprovalGuard(msg.sender, _transactionId)
     {
         transactions[_transactionId].hasApproved[msg.sender] = true;
         transactions[_transactionId].approvalCount++;
 
         if (transactions[_transactionId].approvalCount >= necessaryApprovals) {
-            exectueTransaction(_transactionId, msg.sender);
+            executeTransaction(_transactionId, msg.sender);
         }
     }
 
-    function exectueTransaction(uint256 _transactionId, address _sender)
-        public
-        payable
-        onlyOwner(_sender)
-        balanceGuard(transactions[_transactionId].ammount)
-        approvalGuard(_transactionId)
-        proccessedGuard(_transactionId)
+    function executeTransaction(uint256 _transactionId, address _sender)
+    public
+    payable
+    onlyOwner(_sender)
+    balanceGuard(transactions[_transactionId].ammount)
+    approvalGuard(_transactionId)
+    proccessedGuard(_transactionId)
     {
         Transaction storage transaction = transactions[_transactionId];
 
@@ -114,5 +123,10 @@ contract MultiSigWallet is MultipleOwners {
         transaction.to.transfer(transaction.ammount);
     }
 
-    receive() external payable {}
+    function addFund() payable public {
+        funds[currentFundId].value = msg.value;
+        funds[currentFundId].from = msg.sender;
+        funds[currentFundId].timestamp = block.timestamp;
+        currentFundId++;
+    }
 }
