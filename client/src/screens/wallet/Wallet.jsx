@@ -17,13 +17,12 @@ export const Wallet = ({}) => {
 
 
     useEffect(() => {
-        getWalletBalance()
+        updateWalletBalance()
     }, [])
 
-    const getWalletBalance = async () => {
+    const updateWalletBalance = async () => {
         console.log(contract)
         const balance = await web3.eth.getBalance(contract.options.address);
-
         setWalletBalance(balance);
         console.log(balance);
     }
@@ -34,15 +33,16 @@ export const Wallet = ({}) => {
 
 
     return <WalletContext.Provider value={{
-        currentAccount, handleSetCurrentAccount
+        currentAccount, handleSetCurrentAccount,updateWalletBalance
     }}>
-        <p>Hello Wallet</p>
-        <div>
+        <div className="flex justify-between">
             <p>Wallet Balance</p>
             <p>{walletBalance}</p>
         </div>
 
         <SelectAccount/>
+        <div className="mt-12 ml-12">
         <Deposit/>
+        </div>
     </WalletContext.Provider>
 }
