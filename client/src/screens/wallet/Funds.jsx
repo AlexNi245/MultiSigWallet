@@ -11,7 +11,6 @@ export const Funds = () => {
     const [funds, setFunds] = useState([])
 
     useEffect(() => {
-        console.log(walletBalance)
         getLatestFunds();
     }, [walletBalance,])
 
@@ -55,7 +54,7 @@ export const Funds = () => {
                 <p>Sender</p>
                 <p>Value</p>
             </div>
-            {funds.map(({ from, value}) =>
+            {funds.map(({from, value}) =>
                 <div className="flex flex-row justify-between px-4 space-y-1 ">
                     <p>{from}</p>
                     <p>{value}</p>

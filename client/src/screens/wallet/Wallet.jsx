@@ -12,6 +12,7 @@ export const Wallet = ({}) => {
 
 
     const [currentAccount, setCurrentAccount] = useState(null);
+    const [currentAccountsBalance, setCurrentAccountsBalance] = useState("0")
     const [walletBalance, setWalletBalance] = useState("0")
 
     const [] = useState(null);
@@ -21,22 +22,41 @@ export const Wallet = ({}) => {
         updateWalletBalance()
     }, [])
 
+    useEffect(() => {
+        updateCurrentAccountsBalance(currentAccount)
+    }, [walletBalance])
+
     const updateWalletBalance = async () => {
         console.log(contract)
         const balance = await web3.eth.getBalance(contract.options.address);
         setWalletBalance(balance);
     }
 
-    const handleSetCurrentAccount = account => {
+    const handleSetCurrentAccount = async account => {
         setCurrentAccount(account);
+        updateCurrentAccountsBalance(account)
+    }
+    const updateCurrentAccountsBalance =async account => {
+        if (currentAccount === null) {
+            return
+        }
+        const balance = await web3.eth.getBalance(account);
+        setCurrentAccountsBalance(balance)
     }
 
 
     return <WalletContext.Provider value={{
-        currentAccount, handleSetCurrentAccount, walletBalance, updateWalletBalance, setCurrentAccount
+        currentAccount,
+        handleSetCurrentAccount,
+        walletBalance,
+        updateWalletBalance,
+
+        currentAccountsBalance
     }}>
 
-        <SelectAccount/>
+        <div className="mt-12 ml-12">
+            <SelectAccount/>
+        </div>
         <div className="mt-12 ml-12">
             <Deposit/>
         </div>
