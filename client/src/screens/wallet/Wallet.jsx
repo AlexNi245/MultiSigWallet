@@ -5,6 +5,7 @@ import {WalletContext} from "../../context/WalletContext";
 import {Web3Context} from "../../context/Web3Context";
 import {Deposit} from "./Deposit";
 import {Funds} from "./Funds";
+import {RequestTransaction} from "./RequestTransaction";
 
 export const Wallet = ({}) => {
     const {contract} = useContext(ContractContext);
@@ -36,7 +37,7 @@ export const Wallet = ({}) => {
         setCurrentAccount(account);
         updateCurrentAccountsBalance(account)
     }
-    const updateCurrentAccountsBalance =async account => {
+    const updateCurrentAccountsBalance = async account => {
         if (currentAccount === null) {
             return
         }
@@ -53,6 +54,10 @@ export const Wallet = ({}) => {
 
         currentAccountsBalance
     }}>
+
+        <div className="mt-12 ml-12">
+            <RequestTransaction/>
+        </div>
 
         <div className="mt-12 ml-12">
             <SelectAccount/>
