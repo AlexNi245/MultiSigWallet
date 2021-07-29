@@ -22,15 +22,15 @@ contract MultiSigWallet is MultipleOwners {
     struct Transaction {
         address from;
         address payable to;
-        uint256 ammount;
+        uint256 amount;
         uint256 timestamp;
         mapping(address => bool) hasApproved;
         uint256 approvalCount;
         bool isApproved;
-        bool isProccesed;
+        bool isProcessed;
     }
 
-    modifier contructorGuard(
+    modifier constructorGuard(
         address[] memory _owners,
         uint256 _necessaryApprovals
     ) {
@@ -57,9 +57,9 @@ contract MultiSigWallet is MultipleOwners {
         _;
     }
 
-    modifier proccessedGuard(uint256 _transactionId) {
+    modifier processedGuard(uint256 _transactionId) {
         require(
-            transactions[_transactionId].isProccesed == false,
+            transactions[_transactionId].isProcessed == false,
             "Double spending is not allowed"
         );
         _;
@@ -69,27 +69,27 @@ contract MultiSigWallet is MultipleOwners {
         uint256 contractBalance = address(this).balance;
         require(
             _amount <= contractBalance,
-            "Trancaction ammount exceeds contracts balance"
+            "Transaction amount exceeds contracts balance"
         );
         _;
     }
 
     constructor(address[] memory _owners, uint256 _necessaryApprovals)
     MultipleOwners(_owners)
-    contructorGuard(_owners, _necessaryApprovals)
+    constructorGuard(_owners, _necessaryApprovals)
     {
         necessaryApprovals = _necessaryApprovals;
     }
 
-    function addTransaction(address payable _to, uint256 _ammount)
+    function addTransaction(address payable _to, uint256 _amount)
     public
-    balanceGuard(_ammount)
+    balanceGuard(_amount)
     {
         Transaction storage transaction = transactions[currentTransactionId];
 
         transaction.from = msg.sender;
         transaction.to = _to;
-        transaction.ammount = _ammount;
+        transaction.amount = _amount;
         transaction.timestamp = block.timestamp;
 
         currentTransactionId++;
@@ -112,15 +112,15 @@ contract MultiSigWallet is MultipleOwners {
     public
     payable
     onlyOwner(_sender)
-    balanceGuard(transactions[_transactionId].ammount)
+    balanceGuard(transactions[_transactionId].amount)
     approvalGuard(_transactionId)
-    proccessedGuard(_transactionId)
+    processedGuard(_transactionId)
     {
         Transaction storage transaction = transactions[_transactionId];
 
         transaction.isApproved = true;
-        transaction.isProccesed = true;
-        transaction.to.transfer(transaction.ammount);
+        transaction.isProcessed = true;
+        transaction.to.transfer(transaction.amount);
     }
 
     function addFund() payable public {
