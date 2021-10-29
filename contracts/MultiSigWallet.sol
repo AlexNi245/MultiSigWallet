@@ -129,4 +129,6 @@ contract MultiSigWallet is MultipleOwners {
         funds[currentFundId].timestamp = block.timestamp;
         currentFundId++;
     }
+
+   
 }

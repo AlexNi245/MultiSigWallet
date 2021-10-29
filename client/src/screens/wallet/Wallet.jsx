@@ -6,6 +6,7 @@ import {Web3Context} from "../../context/Web3Context";
 import {Deposit} from "./Deposit";
 import {Funds} from "./Funds";
 import {RequestTransaction} from "./RequestTransaction";
+import {Transactions} from "./Transactions";
 
 export const Wallet = ({}) => {
     const {contract} = useContext(ContractContext);
@@ -67,6 +68,9 @@ export const Wallet = ({}) => {
         </div>
         <div className="mt-12 ml-12">
             <Funds/>
+        </div>
+        <div className="mt-12 ml-12">
+            <Transactions/>
         </div>
 
     </WalletContext.Provider>

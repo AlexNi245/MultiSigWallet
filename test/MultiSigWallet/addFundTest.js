@@ -28,7 +28,7 @@ contract("MultiSigWallet", accounts => {
 
     });
 
-    it.only("fundTransaction -- get all funds", async () => {
+    it("fundTransaction -- get all funds", async () => {
         const txParams = {
             from: accounts[0]
         };

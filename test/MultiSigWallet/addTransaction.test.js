@@ -53,6 +53,7 @@ contract("MultiSigWallet", accounts => {
 
     const transaction = await instance.transactions(0);
 
+
     assert.equal(transaction.from, foreignAddress);
     assert.equal(transaction.to, firstOwner);
     assert.equal(transaction.approvalCount, 0);
