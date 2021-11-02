@@ -8,6 +8,7 @@ import {Funds} from "./Funds";
 import {RequestTransaction} from "./RequestTransaction";
 import {Transactions} from "./Transactions";
 import {WalletSection} from "./WalletSection";
+import {Owners} from "./Owners";
 
 export const Wallet = ({}) => {
     const {contract} = useContext(ContractContext);
@@ -63,7 +64,9 @@ export const Wallet = ({}) => {
                 <SelectAccount/>
             </div>
 
-
+            <WalletSection
+                children={<Owners/>}
+            />
             <WalletSection
                 headline="Funds"
                 description="Deposit funds to the wallet"
