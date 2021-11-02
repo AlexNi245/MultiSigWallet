@@ -44,13 +44,14 @@ export const Funds = () => {
 
     }
 
-    return <div className="text-white flex-col flex bg-gray-800 w-12/12 max-w-4xl rounded-2xl p-2 divide-y-2">
+    return <div className="text-white flex-col flex bg-gray-800 w-8/12 h-80 rounded-2xl p-2 divide-y-2 ">
 
         <p className=" pb-2 text-xl  px-4  ">Funds</p>
 
 
-        <div className="">
-            <div className="text-lg flex flex-row justify-between px-4 mt-4 mb-2">
+
+        <div className="overflow-scroll">
+            <div className="text-lg flex flex-row justify-between px-4 mt-6 mb-2">
                 <p>Sender</p>
                 <p>Value</p>
             </div>
@@ -58,8 +59,8 @@ export const Funds = () => {
                 <div className="flex flex-row justify-between px-4 space-y-1 ">
                     <p>{from}</p>
                     <p>{value}</p>
-                </div>
-            )}
+                </div>)}
+
         </div>
 
     </div>

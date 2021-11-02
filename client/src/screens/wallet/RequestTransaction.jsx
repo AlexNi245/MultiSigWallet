@@ -51,7 +51,7 @@ export const RequestTransaction = () => {
 
         })
     }
-    return <div className="text-white flex-col flex bg-gray-800 w-9/12 max-w-lg rounded-2xl p-2 ">
+    return <div className="text-white flex-col flex bg-gray-800 w-4/12 rounded-2xl p-2 ">
 
         <p className=" pb-2 text-xl  px-4  ">Request Transaction</p>
         <div className="flex justify-between bg-gray-800 mb-2 pl-4 pr-2 "><p

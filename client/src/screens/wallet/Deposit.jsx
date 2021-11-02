@@ -30,7 +30,7 @@ export const Deposit = () => {
     }
 
 
-    return <div className="text-white flex-col flex bg-gray-800 w-6/12 max-w-md rounded-2xl p-2">
+    return <div className="text-white flex-col flex bg-gray-800 w-4/12 h-full rounded-2xl p-2">
         <p className="px-4 pb-2 text-lg ">Deposit Ether</p>
         <div className="flex justify-between bg-gray-700 rounded-2xl  mx-2 px-2 pt-4 pb-6 ">
             <div className="flex bg-gray-900 rounded-2xl  p-2">

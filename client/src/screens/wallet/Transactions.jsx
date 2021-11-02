@@ -56,7 +56,7 @@ export const Transactions = () => {
 
     contract.events.TransactionAdded().on("data", () => initialFetchTransactions())
 
-    return <div className="text-white flex-col flex bg-gray-800   rounded-2xl p-2 divide-y-2">
+    return <div className="text-white flex-col flex bg-gray-800 w-full  rounded-2xl p-2 divide-y-2">
         <p className=" pb-2 text-xl  px-4  ">Transactions</p>
         <div className="">
             <div className="text-lg flex flex-row justify-between px-4 mt-4 mb-2">
