@@ -12,30 +12,29 @@ export const Transactions = () => {
     const {web3} = useContext(Web3Context);
 
 
-    const [transactions, setTransactions] = useState([])
+    const [transactions, setTransactions] = useState([]);
 
     useEffect(() => {
         getTransactions();
-
     }, [walletBalance])
 
     const getTransactions = async (offset = 0) => {
 
-        const PAGE_SIZE = 20;
 
-        const latestTransactionsId = await contract.methods.currentTransactionId().call(
+        const latestTransactionsId = Number.parseInt(await (contract.methods.currentTransactionId().call(
             {from: currentAccount}
-        )//lenght of the transaction mapping
+        )))//lenght of the transaction mapping
 
 
         const transactionsPromises = []
 
 
-        for (const i in [...Array(PAGE_SIZE).keys()]) {
-            //prevent index out of bounds exception...
-            const idxWithOffset = Number.parseInt(i) + offset
+        for (const i in [...Array(latestTransactionsId).keys()]) {
+            //Fetch Transaction in reverse
+            const idxWithOffset = latestTransactionsId - 1 - (Number.parseInt(i) + offset)
 
-            if (idxWithOffset >= Number.parseInt(latestTransactionsId)) {
+            //prevent index out of bounds exception...
+            if (idxWithOffset >= (latestTransactionsId) || idxWithOffset < 0) {
                 break;
             }
 
@@ -45,11 +44,17 @@ export const Transactions = () => {
         }
 
         const resolvedTransactions = await Promise.all(transactionsPromises)
-        setTransactions(resolvedTransactions)
+
+
+        setTransactions(resolvedTransactions);
 
     }
 
-    contract.events.TransactionAdded().on("data", () => getTransactions())
+    const initialFetchTransactions = () => {
+        getTransactions(0);
+    }
+
+    contract.events.TransactionAdded().on("data", () => initialFetchTransactions())
 
     return <div className="text-white flex-col flex bg-gray-800   rounded-2xl p-2 divide-y-2">
         <p className=" pb-2 text-xl  px-4  ">Transactions</p>
@@ -68,7 +73,6 @@ export const Transactions = () => {
                     <p className="w-2/12">{formatDate(new Date(timestamp * 1000))}</p>
                 </div>
             )}
-
         </div>
     </div>
 }
