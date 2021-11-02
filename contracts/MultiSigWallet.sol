@@ -13,6 +13,7 @@ contract MultiSigWallet is MultipleOwners {
     mapping(uint256 => Fund) public funds;
     uint256 public currentFundId;
 
+
     struct Fund {
         address from;
         uint256 value;
@@ -74,6 +75,10 @@ contract MultiSigWallet is MultipleOwners {
         _;
     }
 
+    event TransactionAdded();
+    event TransactionApproved();
+
+
     constructor(address[] memory _owners, uint256 _necessaryApprovals)
     MultipleOwners(_owners)
     constructorGuard(_owners, _necessaryApprovals)
@@ -93,6 +98,8 @@ contract MultiSigWallet is MultipleOwners {
         transaction.timestamp = block.timestamp;
 
         currentTransactionId++;
+
+        emit TransactionAdded();
     }
 
     function approveTransaction(uint256 _transactionId)
@@ -106,6 +113,7 @@ contract MultiSigWallet is MultipleOwners {
         if (transactions[_transactionId].approvalCount >= necessaryApprovals) {
             executeTransaction(_transactionId, msg.sender);
         }
+        emit TransactionApproved();
     }
 
     function executeTransaction(uint256 _transactionId, address _sender)
@@ -130,5 +138,5 @@ contract MultiSigWallet is MultipleOwners {
         currentFundId++;
     }
 
-   
+
 }

@@ -8,7 +8,7 @@ import {Web3Context} from "../context/Web3Context";
 export const SetupGanache = () => {
 
 
-    const [ganacheProviderUrl, setGanacheProviderUrl] = useState("http://localhost:7545");
+    const [ganacheProviderUrl, setGanacheProviderUrl] = useState("ws://localhost:7545");
 
     const {setCurrentRoute} = useContext(RouterContext);
     const {setWeb3} = useContext(Web3Context);
@@ -16,7 +16,7 @@ export const SetupGanache = () => {
     const initGanache = async () => {
         try {
 
-            const web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:7545'));
+            const web3 = new Web3(new Web3.providers.WebsocketProvider('ws://localhost:7545'));
             setWeb3(web3);
             setCurrentRoute(ROUTES.SETUP_CONTRACT);
         } catch (error) {

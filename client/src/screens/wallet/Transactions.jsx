@@ -2,21 +2,26 @@ import React, {useContext, useEffect, useState} from "react";
 import {WalletContext} from "../../context/WalletContext";
 import {ContractContext} from "../../context/ContractContext";
 import {formatDate} from "../../utils/formatDate";
+import {Web3Context} from "../../context/Web3Context";
+import {fromWei} from "web3-utils";
 
 export const Transactions = () => {
 
     const {walletBalance, currentAccount} = useContext(WalletContext)
     const {contract} = useContext(ContractContext);
+    const {web3} = useContext(Web3Context);
+
 
     const [transactions, setTransactions] = useState([])
 
     useEffect(() => {
         getTransactions();
+
     }, [walletBalance])
 
     const getTransactions = async (offset = 0) => {
 
-        const PAGE_SIZE = 10;
+        const PAGE_SIZE = 20;
 
         const latestTransactionsId = await contract.methods.currentTransactionId().call(
             {from: currentAccount}
@@ -33,17 +38,18 @@ export const Transactions = () => {
             if (idxWithOffset >= Number.parseInt(latestTransactionsId)) {
                 break;
             }
+
             transactionsPromises.push(contract.methods.transactions(idxWithOffset).call({
                 from: currentAccount
             }))
         }
 
         const resolvedTransactions = await Promise.all(transactionsPromises)
-        console.log(resolvedTransactions)
         setTransactions(resolvedTransactions)
 
     }
 
+    contract.events.TransactionAdded().on("data", () => getTransactions())
 
     return <div className="text-white flex-col flex bg-gray-800   rounded-2xl p-2 divide-y-2">
         <p className=" pb-2 text-xl  px-4  ">Transactions</p>
@@ -54,15 +60,15 @@ export const Transactions = () => {
                 <p className="w-1/12">Value</p>
                 <p className="w-2/12">Added</p>
             </div>
-            {transactions.map(({from, to, ammount, timestamp, approved}) =>
+            {transactions.map(({from, to, amount, timestamp, approved}) =>
                 <div className="flex flex-row justify-between px-4 space-y-1 ">
                     <p className="w-3/12">{from}</p>
                     <p className="w-3/12">{to}</p>
-                    <p className="w-1/12">{ammount}</p>
-                    <p className="w-2/12">{formatDate( new Date(timestamp*1000))}</p>
+                    <p className="w-1/12">{fromWei(amount, "ether")}</p>
+                    <p className="w-2/12">{formatDate(new Date(timestamp * 1000))}</p>
                 </div>
             )}
-        </div>
 
+        </div>
     </div>
 }
