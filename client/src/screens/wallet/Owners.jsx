@@ -21,13 +21,10 @@ export const Owners = () => {
         fetchOwner();
     }, [])
 
-    return <div className="text-white flex-col flex bg-green-500 w-3/12  rounded-lg p-2">
+    return <div className="text-white flex-col flex bg-green-500 w-3/12 ml-6  rounded-lg p-2">
         <p className="px-4 pb-2 text-lg "> Owners</p>
         <div>
             {owners.map(o=><p className="text-center">{o}</p>)}
         </div>
-
-
-
     </div>
 }

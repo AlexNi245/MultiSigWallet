@@ -9,6 +9,8 @@ import {RequestTransaction} from "./RequestTransaction";
 import {Transactions} from "./Transactions";
 import {WalletSection} from "./WalletSection";
 import {Owners} from "./Owners";
+import {Approvals} from "./Approvals";
+import {ContractBalance} from "./ContractBalance";
 
 export const Wallet = ({}) => {
     const {contract} = useContext(ContractContext);
@@ -59,14 +61,14 @@ export const Wallet = ({}) => {
     }}>
 
         <div className="px-12 py-8 h-full bg-gray-900 text-white space-y-12">
-            <div className="flex justify-between">
-                <p className="text-2xl ml-4">Account</p>
+            <div className="flex justify-between mb-64">
+                <Owners/>
+                <Approvals/>
+                <ContractBalance/>
                 <SelectAccount/>
             </div>
 
-            <WalletSection
-                children={<Owners/>}
-            />
+
             <WalletSection
                 headline="Funds"
                 description="Deposit funds to the wallet"
